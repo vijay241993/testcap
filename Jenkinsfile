@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_USERNAME = 'viju93'
-        DOCKER_PASSWORD = credentials('dockerhub-credentials-id')
+        DOCKER_PASSWORD = 'capstone'
         IMAGE_NAME_DEV = "dev"
         IMAGE_NAME_PROD = "prod"
     }
@@ -14,7 +14,7 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'dev') {
                         sh 'docker build -t $DOCKER_USERNAME/$IMAGE_NAME_DEV:latest .'
-                    } else if (env.BRANCH_NAME == 'master') {
+                    } else if (env.BRANCH_NAME == 'main') {
                         sh 'docker build -t $DOCKER_USERNAME/$IMAGE_NAME_PROD:latest .'
                     }
                 }
@@ -38,7 +38,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    if (env.BRANCH_NAME == 'master') {
+                    if (env.BRANCH_NAME == 'main') {
                         sh 'docker-compose up -d'
                     }
                 }
